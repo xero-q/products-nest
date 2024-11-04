@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Product } from 'src/common/entities/product.entity';
-import { PhysicalProduct } from 'src/common/entities/physical-product.entity';
-import { DigitalProduct } from 'src/common/entities/digital-product.entity';
+import { Product } from 'src/entities/product.entity';
+import { PhysicalProduct } from 'src/entities/physical-product.entity';
+import { DigitalProduct } from 'src/entities/digital-product.entity';
+import { CreateDigitalProductDto } from 'src/dtos/create-digital-product.dto';
+import { CreatePhysicalProductDto } from 'src/dtos/create-physical-product.dto';
 
 @Injectable()
 export class ProductService {
@@ -31,14 +33,18 @@ export class ProductService {
   }
 
   async createDigitalProduct(
-    data: Partial<DigitalProduct>,
+    data: CreateDigitalProductDto,
   ): Promise<DigitalProduct> {
     return this.digitalProductRepository.save(data);
   }
 
   async createPhysicalProduct(
-    data: Partial<PhysicalProduct>,
+    data: CreatePhysicalProductDto,
   ): Promise<PhysicalProduct> {
     return this.physicalProductRepository.save(data);
+  }
+
+  async deleteProductById(id: number): Promise<void> {
+    this.productRepository.delete(id)
   }
 }

@@ -1,9 +1,19 @@
 // src/products/products.controller.ts
-import { Controller, Get } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
-import { Product } from 'src/common/entities/product.entity';
-import { PhysicalProduct } from 'src/common/entities/physical-product.entity';
-import { DigitalProduct } from 'src/common/entities/digital-product.entity';
+import { Product } from 'src/entities/product.entity';
+import { PhysicalProduct } from 'src/entities/physical-product.entity';
+import { DigitalProduct } from 'src/entities/digital-product.entity';
+import { CreateDigitalProductDto } from 'src/dtos/create-digital-product.dto';
+import { CreatePhysicalProductDto } from 'src/dtos/create-physical-product.dto';
 
 @Controller('product')
 export class ProductController {
@@ -22,5 +32,25 @@ export class ProductController {
   @Get('all')
   async getAllProducts(): Promise<Product[]> {
     return this.productService.findAllProducts();
+  }
+
+  @Post('digital')
+  async createDigitalProduct(
+    @Body() data: CreateDigitalProductDto,
+  ): Promise<DigitalProduct> {
+    return this.productService.createDigitalProduct(data);
+  }
+
+  @Post('physical')
+  async createPhysicalProduct(
+    @Body() data: CreatePhysicalProductDto,
+  ): Promise<PhysicalProduct> {
+    return this.productService.createPhysicalProduct(data);
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  async deleteProduct(@Param('id') id: number): Promise<void> {
+    await this.productService.deleteProductById(id);
   }
 }

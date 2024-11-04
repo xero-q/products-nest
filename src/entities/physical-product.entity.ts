@@ -1,6 +1,6 @@
 // src/products/physical/physical-product.entity.ts
 import { ChildEntity, Column } from 'typeorm';
-import { Product } from '../../common/entities/product.entity';
+import { Product } from './product.entity';
 
 @ChildEntity('physical')
 export class PhysicalProduct extends Product {

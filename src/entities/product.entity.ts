@@ -1,4 +1,4 @@
-// src/common/entities/product.entity.ts
+// src/entities/product.entity.ts
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -20,7 +20,4 @@ export abstract class Product {
 
   @Column('decimal', { precision: 10, scale: 2 })
   price: number;
-
-  @Column()
-  type: string; 
 }

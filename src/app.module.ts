@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Product } from './common/entities/product.entity';
-import { PhysicalProduct } from './product/physical/physical-product.entity';
-import { DigitalProduct } from './product/digital/digital-product.entity';
+import { Product } from './entities/product.entity';
 import { ProductModule } from './product/product.module';
+import { PhysicalProduct } from './entities/physical-product.entity';
+import { DigitalProduct } from './entities/digital-product.entity';
 
 @Module({
   imports: [
@@ -24,7 +24,7 @@ import { ProductModule } from './product/product.module';
         database: configService.get<string>('DB_NAME'),
         autoLoadEntities: true,
         synchronize: true,
-        entities:[Product,PhysicalProduct,DigitalProduct]
+        entities: [Product, PhysicalProduct, DigitalProduct],
       }),
       inject: [ConfigService],
     }),
