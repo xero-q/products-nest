@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PhysicalProduct } from './physical/physical-product.entity';
 import { Product } from 'src/common/entities/product.entity';
-import { DigitalProduct } from './digital/digital-product.entity';
+import { PhysicalProduct } from 'src/common/entities/physical-product.entity';
+import { DigitalProduct } from 'src/common/entities/digital-product.entity';
 
 @Injectable()
 export class ProductService {
@@ -19,18 +19,14 @@ export class ProductService {
   ) {}
 
   async findAllPhysicalProducts(): Promise<PhysicalProduct[]> {
-    return this.productRepository.find({
-      where: { type: 'physical' },
-    }) as Promise<PhysicalProduct[]>;
+    return this.physicalProductRepository.find();
   }
 
   async findAllDigitalProducts(): Promise<DigitalProduct[]> {
-    return this.productRepository.find({
-      where: { type: 'digital' },
-    }) as Promise<DigitalProduct[]>;
+    return this.digitalProductRepository.find();
   }
 
-  async findAllProducts(): Promise<Product[]>{
+  async findAllProducts(): Promise<Product[]> {
     return this.productRepository.find();
   }
 
