@@ -6,6 +6,8 @@ import {
   Get,
   HttpCode,
   Param,
+  ParseIntPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
@@ -14,6 +16,8 @@ import { PhysicalProduct } from 'src/entities/physical-product.entity';
 import { DigitalProduct } from 'src/entities/digital-product.entity';
 import { CreateDigitalProductDto } from 'src/dtos/create-digital-product.dto';
 import { CreatePhysicalProductDto } from 'src/dtos/create-physical-product.dto';
+import { UpdateDigitalProductDto } from 'src/dtos/update-digital-product.dto';
+import { UpdatePhysicalProductDto } from 'src/dtos/update-physical-product.dto';
 
 @Controller('product')
 export class ProductController {
@@ -50,7 +54,23 @@ export class ProductController {
 
   @Delete(':id')
   @HttpCode(204)
-  async deleteProduct(@Param('id') id: number): Promise<void> {
+  async deleteProduct(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.productService.deleteProductById(id);
+  }
+
+  @Patch('digital/:id')
+  async updateDigitalProduct(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: UpdateDigitalProductDto,
+  ): Promise<Product> {
+    return this.productService.updateDigitalProduct(id, data);
+  }
+
+  @Patch('physical/:id')
+  async updatePhysicalProduct(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: UpdatePhysicalProductDto,
+  ): Promise<Product> {
+    return this.productService.updatePhysicalProduct(id, data);
   }
 }

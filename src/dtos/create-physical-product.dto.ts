@@ -3,5 +3,5 @@ import { CreateProductDto } from './create-product.dto';
 
 export class CreatePhysicalProductDto extends CreateProductDto {
   @IsPositive()
-  shipwmenCost: number;
+  shipmentCost: number;
 }
