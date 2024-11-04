@@ -17,4 +17,10 @@ export abstract class Product {
 
   @Column()
   name: string;
+
+  @Column('decimal', { precision: 10, scale: 2 })
+  price: number;
+
+  @Column()
+  type: string; 
 }

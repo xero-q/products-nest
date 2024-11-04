@@ -4,9 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './common/entities/product.entity';
 import { PhysicalProduct } from './product/physical/physical-product.entity';
 import { DigitalProduct } from './product/digital/digital-product.entity';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
+    ProductModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
