@@ -101,4 +101,8 @@ export class ProductService {
 
     return this.physicalProductRepository.save(product);
   }
+
+  async getProduct(id: number): Promise<Product>{
+    return this.productRepository.findOne({where: {id}})
+  }
 }

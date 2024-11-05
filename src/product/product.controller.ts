@@ -7,7 +7,7 @@ import {
   HttpCode,
   Param,
   ParseIntPipe,
-  Patch,
+  Put,
   Post,
   Query,
 } from '@nestjs/common';
@@ -37,8 +37,8 @@ export class ProductController {
   @Get('all')
   async getAllProducts(
     @Query('page') page = 1,
-    @Query('pageSize') pageSize = 20
-  ): Promise<{results: Product[],total:number}> {
+    @Query('pageSize') pageSize = 20,
+  ): Promise<{ results: Product[]; total: number }> {
     return this.productService.findAllProducts(page, pageSize);
   }
 
@@ -62,7 +62,7 @@ export class ProductController {
     await this.productService.deleteProductById(id);
   }
 
-  @Patch('digital/:id')
+  @Put('digital/:id')
   async updateDigitalProduct(
     @Param('id', ParseIntPipe) id: number,
     @Body() data: UpdateDigitalProductDto,
@@ -70,11 +70,16 @@ export class ProductController {
     return this.productService.updateDigitalProduct(id, data);
   }
 
-  @Patch('physical/:id')
+  @Put('physical/:id')
   async updatePhysicalProduct(
     @Param('id', ParseIntPipe) id: number,
     @Body() data: UpdatePhysicalProductDto,
   ): Promise<Product> {
     return this.productService.updatePhysicalProduct(id, data);
+  }
+
+  @Get(':id')
+  async getProduct(@Param('id', ParseIntPipe) id: number): Promise<Product> {
+    return this.productService.getProduct(id);
   }
 }
