@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from 'src/entities/product.entity';
@@ -34,8 +35,11 @@ export class ProductController {
   }
 
   @Get('all')
-  async getAllProducts(): Promise<Product[]> {
-    return this.productService.findAllProducts();
+  async getAllProducts(
+    @Query('page') page = 1,
+    @Query('pageSize') pageSize = 20
+  ): Promise<{results: Product[],total:number}> {
+    return this.productService.findAllProducts(page, pageSize);
   }
 
   @Post('digital')

@@ -30,8 +30,16 @@ export class ProductService {
     return this.digitalProductRepository.find();
   }
 
-  async findAllProducts(): Promise<Product[]> {
-    return this.productRepository.find();
+  async findAllProducts(
+    page: number,
+    pageSize: number,
+  ): Promise<{ results: Product[]; total: number }> {
+    const [results, total] = await this.productRepository.findAndCount({
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    });
+
+    return { results, total };
   }
 
   async createDigitalProduct(
