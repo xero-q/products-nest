@@ -33,11 +33,18 @@ export class ProductService {
   async findAllProducts(
     page: number,
     pageSize: number,
+    search: string,
   ): Promise<{ results: Product[]; total: number }> {
-    const [results, total] = await this.productRepository.findAndCount({
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-    });
+    const query = this.productRepository.createQueryBuilder('product');
+
+    if (search) {
+      query.orWhere('product.code ILIKE :code', { code: `%${search}%` });
+      query.orWhere('product.name ILIKE :name', { name: `%${search}%` });
+    }
+
+    query.skip((page - 1) * pageSize).take(pageSize);
+
+    const [results, total] = await query.getManyAndCount();
 
     return { results, total };
   }
@@ -102,7 +109,7 @@ export class ProductService {
     return this.physicalProductRepository.save(product);
   }
 
-  async getProduct(id: number): Promise<Product>{
-    return this.productRepository.findOne({where: {id}})
+  async getProduct(id: number): Promise<Product> {
+    return this.productRepository.findOne({ where: { id } });
   }
 }

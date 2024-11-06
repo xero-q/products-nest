@@ -38,8 +38,9 @@ export class ProductController {
   async getAllProducts(
     @Query('page') page = 1,
     @Query('pageSize') pageSize = 20,
+    @Query('search') search = '',
   ): Promise<{ results: Product[]; total: number }> {
-    return this.productService.findAllProducts(page, pageSize);
+    return this.productService.findAllProducts(page, pageSize, search);
   }
 
   @Post('digital')
