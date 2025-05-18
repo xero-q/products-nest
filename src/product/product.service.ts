@@ -34,7 +34,12 @@ export class ProductService {
     page: number,
     pageSize: number,
     search: string,
-  ): Promise<{ results: Product[]; total: number }> {
+  ): Promise<{
+    results: Product[];
+    total: number;
+    page: number;
+    hasNext: boolean;
+  }> {
     const query = this.productRepository.createQueryBuilder('product');
 
     if (search) {
@@ -46,7 +51,13 @@ export class ProductService {
 
     const [results, total] = await query.getManyAndCount();
 
-    return { results, total };
+    const number_of_pages = Math.floor(
+      (total + Number(pageSize) - 1) / Number(pageSize),
+    );
+
+    const hasNext = page < number_of_pages;
+
+    return { results, total, page, hasNext };
   }
 
   async createDigitalProduct(
